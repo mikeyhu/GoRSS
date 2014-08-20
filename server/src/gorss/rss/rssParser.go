@@ -25,15 +25,7 @@ func Parse(data string) (rss Rss, err error) {
 
 	if err != nil {
 		fmt.Printf("error: %v", err)
-		return rss, err
 	}
-
-	/*fmt.Printf("Channel Title: %v\n", w.Channel.Title)
-	for _, item := range w.Channel.Items {
-		fmt.Printf("   Item Title: %v\n", item.Title)
-		fmt.Printf("     Link    : %v\n", item.Link)
-	}*/
-
-	return rss, nil
+	return
 
 }

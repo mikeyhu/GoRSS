@@ -21,9 +21,7 @@ func Parse(data string) (rss Feed, err error) {
 
 	if err != nil {
 		fmt.Printf("error: %v", err)
-		return rss, err
 	}
-
-	return rss, nil
+	return
 }
 
