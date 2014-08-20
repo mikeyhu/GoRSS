@@ -45,27 +45,10 @@ func TestParseSuccess(t *testing.T) {
 	}
 }
 
-/*func TestParseFailWrongXML(t *testing.T) {
-	data := `
-		<?xml version="1.0" encoding="UTF-8"?>
-		<atom>
-		  <channel>
-			<title>Sport | The Guardian</title>
-		  </channel>
-		</atom>
-	`
-	var _, err = Parse(data)
-
-	if err == nil {
-		t.Errorf("Parse() returned %v", err)
-	}
-}*/
-
 func TestParseFailInvalidXML(t *testing.T) {
-	data := `
-		<bobbob><bil>
-	`
-	var _, err = Parse(data)
+	data := "<bobbob><bil>"
+
+	_, err := Parse(data)
 
 	if err == nil {
 		t.Errorf("Parse() returned %v", err)
