@@ -22,6 +22,7 @@ var testData = `
 	<item>
 	  <title>Japan v Colombia: World Cup 2014 live!</title>
 	  <link>http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</link>
+	  <guid isPermaLink="false">http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</guid>
 	</item>
 	<item>
 	  <title>Germany v Brazil: World Cup 2014 live!</title>
@@ -59,5 +60,8 @@ func TestNormalise(t *testing.T) {
 
 	if len(result) != 2 {
 		t.Errorf("Normalise() returned %v", len(result))
+	}
+	if result[0].Id != "http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc" {
+		t.Errorf("Normalise() did not find Id")
 	}
 }

@@ -9,6 +9,7 @@ import (
 type Item struct {
 	Title string `xml:"title"`
 	Link  string `xml:"link"`
+	Guid  string `xml:"guid"`
 }
 
 type Channel struct {
@@ -36,7 +37,8 @@ func Normalise(parsedData Rss) []data.Story {
 	for pos, element := range parsedData.Channel.Items {
 		results[pos] = data.Story{
 			Title: element.Title,
-			Link:  element.Link}
+			Link:  element.Link,
+			Id:    element.Guid}
 	}
 	return results
 }
