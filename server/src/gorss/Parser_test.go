@@ -1,6 +1,9 @@
-package atom
+package gorss
 
-import "testing"
+import (
+	"gorss/atom"
+	"testing"
+)
 
 func TestParseSuccess(t *testing.T) {
 	data := `
@@ -33,23 +36,13 @@ func TestParseSuccess(t *testing.T) {
 			</entry>
 		</feed>
 	`
-	var result, err = Parse(data)
+	parsed, _ := atom.Parse(data)
+	result := NormaliseAtom(parsed)
 
-	if err != nil {
-		t.Errorf("Parse() returned %v", err)
+	if len(result) != 1 {
+		t.Errorf("NormaliseAtom() returned %v", len(result))
 	}
-	expectedTitle := "Example Feed"
-	if result.Title != expectedTitle {
-		t.Errorf("Parse() result.Title = %v wanted %v ", result.Title, expectedTitle)
-	}
-}
-
-func TestParseFailInvalidXML(t *testing.T) {
-	data := "<bobbob><bil>"
-
-	_, err := Parse(data)
-
-	if err == nil {
-		t.Errorf("Parse() returned %v", err)
+	if result[0].Title != "Atom-Powered Robots Run Amok" {
+		t.Errorf("NormaliseAtom() returned title %v", result[0].Title)
 	}
 }

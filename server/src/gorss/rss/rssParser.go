@@ -3,6 +3,7 @@ package rss
 import (
 	"encoding/xml"
 	"fmt"
+	"gorss"
 )
 
 type Item struct {
@@ -19,13 +20,23 @@ type Rss struct {
 	Channel Channel `xml:"channel"`
 }
 
-func Parse(data string) (rss Rss, err error) {
-	rss = Rss{}
-	err = xml.Unmarshal([]byte(data), &rss)
+func Parse(data string) (result Rss, err error) {
+	result = Rss{}
+	err = xml.Unmarshal([]byte(data), &result)
 
 	if err != nil {
 		fmt.Printf("error: %v", err)
 	}
 	return
+}
 
+func Normalise(parsedData Rss) []gorss.Story {
+	var results = make([]gorss.Story, len(parsedData.Channel.Items))
+
+	for pos, element := range parsedData.Channel.Items {
+		results[pos] = gorss.Story{
+			Title: element.Title,
+			Link:  element.Link}
+	}
+	return results
 }

@@ -1,8 +1,8 @@
 package atom
 
 import (
-	"fmt"
 	"encoding/xml"
+	"fmt"
 )
 
 type Entry struct {
@@ -11,7 +11,7 @@ type Entry struct {
 }
 
 type Feed struct {
-	Title string `xml:"title"`
+	Title   string  `xml:"title"`
 	Entries []Entry `xml:"entry"`
 }
 
@@ -24,4 +24,3 @@ func Parse(data string) (rss Feed, err error) {
 	}
 	return
 }
-
