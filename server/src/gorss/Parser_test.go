@@ -1,5 +1,0 @@
-package gorss
-
-import (
-	"testing"
-)

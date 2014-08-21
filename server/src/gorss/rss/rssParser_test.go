@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-var data = `
+var testData = `
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
@@ -32,7 +32,7 @@ var data = `
 `
 
 func TestParseSuccess(t *testing.T) {
-	var result, err = Parse(data)
+	var result, err = Parse(testData)
 
 	if err != nil {
 		t.Errorf("Parse() returned %v", err)
@@ -44,9 +44,9 @@ func TestParseSuccess(t *testing.T) {
 }
 
 func TestParseFailInvalidXML(t *testing.T) {
-	data := "<bobbob><bil>"
+	testData := "<bobbob><bil>"
 
-	_, err := Parse(data)
+	_, err := Parse(testData)
 
 	if err == nil {
 		t.Errorf("Parse() returned %v", err)
@@ -54,7 +54,7 @@ func TestParseFailInvalidXML(t *testing.T) {
 }
 
 func TestNormalise(t *testing.T) {
-	var parsed, _ = Parse(data)
+	var parsed, _ = Parse(testData)
 	var result = Normalise(parsed)
 
 	if len(result) != 2 {

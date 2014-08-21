@@ -2,7 +2,7 @@ package atom
 
 import "testing"
 
-var data = `
+var testData = `
 		<feed xmlns="http://www.w3.org/2005/Atom">
 
 			<title>Example Feed</title>
@@ -34,7 +34,7 @@ var data = `
 	`
 
 func TestParseSuccess(t *testing.T) {
-	var result, err = Parse(data)
+	var result, err = Parse(testData)
 
 	if err != nil {
 		t.Errorf("Parse() returned %v", err)
@@ -46,9 +46,9 @@ func TestParseSuccess(t *testing.T) {
 }
 
 func TestParseFailInvalidXML(t *testing.T) {
-	data := "<bobbob><bil>"
+	testData := "<bobbob><bil>"
 
-	_, err := Parse(data)
+	_, err := Parse(testData)
 
 	if err == nil {
 		t.Errorf("Parse() returned %v", err)
@@ -56,7 +56,7 @@ func TestParseFailInvalidXML(t *testing.T) {
 }
 
 func TestNormalise(t *testing.T) {
-	var parsed, _ = Parse(data)
+	var parsed, _ = Parse(testData)
 	var result = Normalise(parsed)
 
 	if len(result) != 1 {
