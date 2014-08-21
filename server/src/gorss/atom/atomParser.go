@@ -3,6 +3,7 @@ package atom
 import (
 	"encoding/xml"
 	"fmt"
+	"gorss"
 )
 
 type Entry struct {
@@ -23,4 +24,15 @@ func Parse(data string) (rss Feed, err error) {
 		fmt.Printf("error: %v", err)
 	}
 	return
+}
+
+func Normalise(parsedData Feed) []gorss.Story {
+	var results = make([]gorss.Story, len(parsedData.Entries))
+
+	for pos, element := range parsedData.Entries {
+		results[pos] = gorss.Story{
+			Title: element.Title,
+			Link:  element.Link}
+	}
+	return results
 }

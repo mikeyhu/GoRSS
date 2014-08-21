@@ -2,8 +2,7 @@ package atom
 
 import "testing"
 
-func TestParseSuccess(t *testing.T) {
-	data := `
+var data = `
 		<feed xmlns="http://www.w3.org/2005/Atom">
 
 			<title>Example Feed</title>
@@ -33,6 +32,8 @@ func TestParseSuccess(t *testing.T) {
 			</entry>
 		</feed>
 	`
+
+func TestParseSuccess(t *testing.T) {
 	var result, err = Parse(data)
 
 	if err != nil {
@@ -51,5 +52,17 @@ func TestParseFailInvalidXML(t *testing.T) {
 
 	if err == nil {
 		t.Errorf("Parse() returned %v", err)
+	}
+}
+
+func TestNormalise(t *testing.T) {
+	var parsed, _ = Parse(data)
+	var result = Normalise(parsed)
+
+	if len(result) != 1 {
+		t.Errorf("NormaliseAtom() returned %v", len(result))
+	}
+	if result[0].Title != "Atom-Powered Robots Run Amok" {
+		t.Errorf("NormaliseAtom() returned title %v", result[0].Title)
 	}
 }

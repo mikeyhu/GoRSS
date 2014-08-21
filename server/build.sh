@@ -1,3 +1,6 @@
-go install gorss
+go fmt gorss/atom gorss/rss gorss
 
-bin/gorss
+go test gorss/atom gorss/rss gorss
+
+#go install gorss
+#bin/gorss
