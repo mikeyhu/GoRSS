@@ -2,7 +2,6 @@ package atom
 
 import (
 	"encoding/xml"
-	"fmt"
 	"gorss/data"
 )
 
@@ -19,10 +18,6 @@ type Feed struct {
 func Parse(data string) (rss Feed, err error) {
 	rss = Feed{}
 	err = xml.Unmarshal([]byte(data), &rss)
-
-	if err != nil {
-		fmt.Printf("error: %v", err)
-	}
 	return
 }
 
@@ -35,4 +30,14 @@ func Normalise(parsedData Feed) []data.Story {
 			Link:  element.Link}
 	}
 	return results
+}
+
+func LoadStories(data string) (stories []data.Story, err error) {
+	var result Feed
+	result, err = Parse(data)
+	if err != nil {
+		return
+	}
+	stories = Normalise(result)
+	return
 }

@@ -2,7 +2,6 @@ package rss
 
 import (
 	"encoding/xml"
-	"fmt"
 	"gorss/data"
 )
 
@@ -24,10 +23,6 @@ type Rss struct {
 func Parse(data string) (result Rss, err error) {
 	result = Rss{}
 	err = xml.Unmarshal([]byte(data), &result)
-
-	if err != nil {
-		fmt.Printf("error: %v", err)
-	}
 	return
 }
 

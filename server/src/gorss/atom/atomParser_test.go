@@ -64,3 +64,17 @@ func TestNormalise(t *testing.T) {
 		t.Errorf("NormaliseAtom() returned title %v", result[0].Title)
 	}
 }
+
+func TestLoadStories(t *testing.T) {
+	var result, err = LoadStories(testData)
+
+	if err != nil {
+		t.Errorf("LoadStories() returned err")
+	}
+	if len(result) != 1 {
+		t.Errorf("LoadStories() returned %v", len(result))
+	}
+	if result[0].Title != "Atom-Powered Robots Run Amok" {
+		t.Errorf("LoadStories() returned title %v", result[0].Title)
+	}
+}
