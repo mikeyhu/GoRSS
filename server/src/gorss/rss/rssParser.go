@@ -2,7 +2,7 @@ package rss
 
 import (
 	"encoding/xml"
-	"gorss/data"
+	"gorss/domain"
 )
 
 type Item struct {
@@ -26,11 +26,11 @@ func Parse(data string) (result Rss, err error) {
 	return
 }
 
-func Normalise(parsedData Rss) []data.Story {
-	var results = make([]data.Story, len(parsedData.Channel.Items))
+func Normalise(parsedData Rss) []domain.Story {
+	var results = make([]domain.Story, len(parsedData.Channel.Items))
 
 	for pos, element := range parsedData.Channel.Items {
-		results[pos] = data.Story{
+		results[pos] = domain.Story{
 			Title: element.Title,
 			Link:  element.Link,
 			Id:    element.Guid}

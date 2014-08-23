@@ -2,7 +2,7 @@ package atom
 
 import (
 	"encoding/xml"
-	"gorss/data"
+	"gorss/domain"
 )
 
 type Entry struct {
@@ -21,18 +21,18 @@ func Parse(data string) (rss Feed, err error) {
 	return
 }
 
-func Normalise(parsedData Feed) []data.Story {
-	var results = make([]data.Story, len(parsedData.Entries))
+func Normalise(parsedData Feed) []domain.Story {
+	var results = make([]domain.Story, len(parsedData.Entries))
 
 	for pos, element := range parsedData.Entries {
-		results[pos] = data.Story{
+		results[pos] = domain.Story{
 			Title: element.Title,
 			Link:  element.Link}
 	}
 	return results
 }
 
-func LoadStories(data string) (stories []data.Story, err error) {
+func LoadStories(data string) (stories []domain.Story, err error) {
 	var result Feed
 	result, err = Parse(data)
 	if err != nil {
