@@ -9,7 +9,7 @@ import (
 )
 
 func LoadUrl(url string) (result []domain.Story, err error) {
-	resp, err := http.Get("http://feeds.bbci.co.uk/news/video_and_audio/uk/rss.xml")
+	resp, err := http.Get(url)
 	if err != nil {
 		return
 	}
