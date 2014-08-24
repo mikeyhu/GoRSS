@@ -1,8 +1,19 @@
-package rss
+package main
 
 import "testing"
 
-var testData = `
+var testAtom = `
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Example Feed</title>
+	<entry>
+		<title>Atom-Powered Robots Run Amok</title>
+		<link href="http://example.org/2003/12/13/atom03" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+	</entry>
+</feed>
+`
+
+var testRss = `
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
@@ -13,53 +24,38 @@ var testData = `
 	<copyright>Guardian News and Media Limited or its affiliated companies. All rights reserved. 2014</copyright>
 	<pubDate>Tue, 24 Jun 2014 20:02:55 GMT</pubDate>
 	<lastBuildDate>Tue, 24 Jun 2014 20:02:55 GMT</lastBuildDate>
-	<ttl>5</ttl>
-	<dc:date>2014-06-24T20:02:55Z</dc:date>
-	<dc:language>en-gb</dc:language>
-	<dc:rights>Guardian News and Media Limited or its affiliated companies. All rights reserved. 2014</dc:rights>
 	<item>
 	  <title>Japan v Colombia: World Cup 2014 live!</title>
 	  <link>http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</link>
 	  <guid isPermaLink="false">http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</guid>
 	</item>
-	<item>
-	  <title>Germany v Brazil: World Cup 2014 live!</title>
-	  <link>http://feeds.theguardian.com/c/34708</link>
-	</item>
   </channel>
 </rss>
 `
 
-func TestParseSuccess(t *testing.T) {
-	var result, err = Parse(testData)
-
+func TestLoadRss(t *testing.T) {
+	result, err := LoadFeed(testRss)
 	if err != nil {
-		t.Errorf("Parse() returned %v", err)
+		t.Errorf("LoadFeed() unable to load feed")
 	}
-	expectedTitle := "Sport | The Guardian"
-	if result.Channel.Title != expectedTitle {
-		t.Errorf("Parse() result.Title = '%v' wanted '%v' ", result.Channel.Title, expectedTitle)
+	if len(result) != 1 {
+		t.Errorf("LoadFeed() did not find story")
 	}
 }
 
-func TestParseFailInvalidXML(t *testing.T) {
-	testData := "<bobbob><bil>"
+func TestLoadAtom(t *testing.T) {
+	result, err := LoadFeed(testAtom)
+	if err != nil {
+		t.Errorf("LoadFeed() unable to load feed")
+	}
+	if len(result) != 1 {
+		t.Errorf("LoadFeed() did not find story")
+	}
+}
 
-	_, err := Parse(testData)
-
+func TestInvalid(t *testing.T) {
+	_, err := LoadFeed("<a></a>")
 	if err == nil {
-		t.Errorf("Parse() returned %v", err)
-	}
-}
-
-func TestNormalise(t *testing.T) {
-	var parsed, _ = Parse(testData)
-	var result = Normalise(parsed)
-
-	if len(result) != 2 {
-		t.Errorf("Normalise() returned %v", len(result))
-	}
-	if result[0].Id != "http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc" {
-		t.Errorf("Normalise() did not find Id")
+		t.Errorf("LoadFeed() did not return error")
 	}
 }
