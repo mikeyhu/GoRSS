@@ -27,5 +27,4 @@ func main() {
 	for _, story := range rss.Normalise(parsed) {
 		fmt.Printf("Title: %v\n", story.Title)
 	}
-
 }

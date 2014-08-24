@@ -31,6 +31,17 @@ var testData = `
 </feed>
 	`
 
+var testEmptyData = `
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Example Feed</title>
+	<subtitle>A subtitle.</subtitle>
+	<link href="http://example.org/feed/" rel="self" />
+	<link href="http://example.org/" />
+	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+	<updated>2003-12-13T18:30:02Z</updated>
+</feed>
+	`
+
 func TestParseSuccess(t *testing.T) {
 	var result, err = Parse(testData)
 
@@ -76,5 +87,16 @@ func TestLoadStories(t *testing.T) {
 	}
 	if result[0].Title != "Atom-Powered Robots Run Amok" {
 		t.Errorf("LoadStories() returned title %v", result[0].Title)
+	}
+}
+
+func TestLoadEmptyStories(t *testing.T) {
+	var result, err = LoadStories(testEmptyData)
+
+	if err == nil {
+		t.Errorf("LoadStories() did not return err")
+	}
+	if len(result) != 0 {
+		t.Errorf("LoadStories() returned %v", len(result))
 	}
 }

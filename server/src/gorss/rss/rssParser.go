@@ -2,6 +2,7 @@ package rss
 
 import (
 	"encoding/xml"
+	"errors"
 	"gorss/domain"
 )
 
@@ -36,4 +37,17 @@ func Normalise(parsedData Rss) []domain.Story {
 			Id:    element.Guid}
 	}
 	return results
+}
+
+func LoadStories(data string) (stories []domain.Story, err error) {
+	var result Rss
+	result, err = Parse(data)
+	if err != nil {
+		return
+	}
+	stories = Normalise(result)
+	if len(stories) == 0 {
+		err = errors.New("No stories found")
+	}
+	return
 }

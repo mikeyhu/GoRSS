@@ -2,6 +2,7 @@ package atom
 
 import (
 	"encoding/xml"
+	"errors"
 	"gorss/domain"
 )
 
@@ -39,5 +40,8 @@ func LoadStories(data string) (stories []domain.Story, err error) {
 		return
 	}
 	stories = Normalise(result)
+	if len(stories) == 0 {
+		err = errors.New("No stories found")
+	}
 	return
 }
