@@ -22,15 +22,15 @@ func Parse(data string) (rss Feed, err error) {
 	return
 }
 
-func Normalise(parsedData Feed) []domain.Story {
-	var results = make([]domain.Story, len(parsedData.Entries))
+func Normalise(parsedData Feed) (results []domain.Story) {
+	results = make([]domain.Story, len(parsedData.Entries))
 
 	for pos, element := range parsedData.Entries {
 		results[pos] = domain.Story{
 			Title: element.Title,
 			Link:  element.Link}
 	}
-	return results
+	return
 }
 
 func LoadStories(data string) (stories []domain.Story, err error) {
