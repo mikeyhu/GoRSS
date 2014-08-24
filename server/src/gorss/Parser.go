@@ -2,10 +2,18 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main() {
-	result, err := LoadUrl("http://feeds.bbci.co.uk/news/video_and_audio/uk/rss.xml")
+	args := os.Args[1:]
+
+	if len(args) != 1 {
+		fmt.Print("Please provide a Url to retrieve\n")
+		return
+	}
+
+	result, err := LoadUrl(args[0])
 	if err != nil {
 		// handle error
 	}
