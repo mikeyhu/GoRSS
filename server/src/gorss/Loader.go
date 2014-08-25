@@ -10,11 +10,12 @@ import (
 
 func LoadUrl(url string) (result []domain.Story, err error) {
 	resp, err := http.Get(url)
+	defer resp.Body.Close()
+
 	if err != nil {
 		return
 	}
 
-	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return
