@@ -23,8 +23,7 @@ func LoadUrl(url string) (result []domain.Story, err error) {
 }
 
 func LoadFeed(data string) (result []domain.Story, err error) {
-	result, err = atom.LoadStories(data)
-	if err == nil {
+	if result, err = atom.LoadStories(data); err == nil {
 		return
 	}
 	return rss.LoadStories(data)
