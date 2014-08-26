@@ -1,6 +1,7 @@
 package rss
 
 import "testing"
+import "time"
 
 var testData = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -21,10 +22,12 @@ var testData = `
 	  <title>Japan v Colombia: World Cup 2014 live!</title>
 	  <link>http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</link>
 	  <guid isPermaLink="false">http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</guid>
+	  <pubDate>Tue, 24 Jun 2014 20:02:55 GMT</pubDate>
 	</item>
 	<item>
 	  <title>Germany v Brazil: World Cup 2014 live!</title>
 	  <link>http://feeds.theguardian.com/c/34708</link>
+	  <pubDate>Tue, 24 Jun 2014 20:02:55 GMT</pubDate>
 	</item>
   </channel>
 </rss>
@@ -61,5 +64,12 @@ func TestNormalise(t *testing.T) {
 	}
 	if result[0].Id != "http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc" {
 		t.Errorf("Normalise() did not find Id")
+	}
+	expectedDate, err := time.Parse(time.RFC1123, "Tue, 24 Jun 2014 20:02:55 GMT")
+	if err != nil {
+		t.Errorf("Unable to parse time")
+	}
+	if result[0].Date != expectedDate {
+		t.Errorf("Normalise() did not find datetime: %v", result[0].Date)
 	}
 }

@@ -28,6 +28,7 @@ var testRss = `
 	  <title>Japan v Colombia: World Cup 2014 live!</title>
 	  <link>http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</link>
 	  <guid isPermaLink="false">http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc</guid>
+	  <pubDate>Tue, 24 Jun 2014 20:02:55 GMT</pubDate>
 	</item>
   </channel>
 </rss>
