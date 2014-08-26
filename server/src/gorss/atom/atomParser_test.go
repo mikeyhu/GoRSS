@@ -1,6 +1,9 @@
 package atom
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 var testData = `
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -87,6 +90,10 @@ func TestLoadStories(t *testing.T) {
 	}
 	if result[0].Title != "Atom-Powered Robots Run Amok" {
 		t.Errorf("LoadStories() returned title %v", result[0].Title)
+	}
+	expectedDate, _ := time.Parse(time.RFC1123, "2003-12-13T18:30:02Z")
+	if result[0].Date != expectedDate {
+		t.Errorf("Normalise() did not find datetime: %v", result[0].Date)
 	}
 }
 

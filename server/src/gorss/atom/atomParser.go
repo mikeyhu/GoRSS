@@ -4,11 +4,13 @@ import (
 	"encoding/xml"
 	"errors"
 	"gorss/domain"
+	"time"
 )
 
 type Entry struct {
-	Title string `xml:"title"`
-	Link  string `xml:"link"`
+	Title   string `xml:"title"`
+	Link    string `xml:"link"`
+	Updated string `xml:"updated"`
 }
 
 type Feed struct {
@@ -26,9 +28,11 @@ func Normalise(parsedData Feed) (results []domain.Story) {
 	results = make([]domain.Story, len(parsedData.Entries))
 
 	for pos, element := range parsedData.Entries {
+		date, _ := time.Parse(time.RFC1123, element.Updated)
 		results[pos] = domain.Story{
 			Title: element.Title,
-			Link:  element.Link}
+			Link:  element.Link,
+			Date:  date}
 	}
 	return
 }

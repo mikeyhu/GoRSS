@@ -6,17 +6,22 @@ import (
 
 	"gorss/domain"
 	"testing"
+	"time"
 )
 
 var connection = "localhost:27000"
 
+var expectedDate = time.Now()
+
 var testStory1 = domain.Story{
 	Title : "A story",
-	Id    : "a_story"}
+	Id    : "a_story",
+	Date  : expectedDate}
 
 var testStory2 = domain.Story{
 	Title : "Another story",
-	Id    : "another_story"}
+	Id    : "another_story",
+	Date  : expectedDate}
 
 func TestIngestion(t *testing.T) {
 
@@ -40,6 +45,7 @@ func TestIngestion(t *testing.T) {
 	if err != nil {
 		t.Errorf("Cannot find story: %v", err)
 	}
-
-
+	if result.Title != "A story" {
+		t.Errorf("Story.Title: %v", result.Title)
+	}
 }
