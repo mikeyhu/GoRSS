@@ -1,11 +1,9 @@
-package ingestion
+package state
 
 import (
 	"gopkg.in/mgo.v2"
 	"gorss/domain"
 )
-
-
 
 func Ingest(connection string, stories []domain.Story) (err error) {
 	session, err := mgo.Dial(connection)
@@ -15,12 +13,11 @@ func Ingest(connection string, stories []domain.Story) (err error) {
 	defer session.Close()
 
 	c := session.DB("test").C("stories")
-	for _,story := range stories {
+	for _, story := range stories {
 		err = c.Insert(story)
-		if err !=nil {
+		if err != nil {
 			break
 		}
 	}
 	return
 }
-

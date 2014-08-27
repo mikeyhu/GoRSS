@@ -1,8 +1,8 @@
-package ingestion
+package state
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"gorss/domain"
 	"testing"
 	"time"
@@ -13,14 +13,14 @@ var connection = "localhost:27000"
 var expectedDate = time.Now()
 
 var testStory1 = domain.Story{
-	Title : "A story",
-	Id    : "a_story",
-	Date  : expectedDate}
+	Title: "A story",
+	Id:    "a_story",
+	Date:  expectedDate}
 
 var testStory2 = domain.Story{
-	Title : "Another story",
-	Id    : "another_story",
-	Date  : expectedDate}
+	Title: "Another story",
+	Id:    "another_story",
+	Date:  expectedDate}
 
 func TestIngestion(t *testing.T) {
 
@@ -32,7 +32,6 @@ func TestIngestion(t *testing.T) {
 	if erro != nil {
 		t.Errorf("Ingest() returned %v", erro)
 	}
-
 
 	session, err := mgo.Dial(connection)
 	defer session.Close()

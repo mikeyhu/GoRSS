@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"gorss/state"
 	"os"
 )
 
@@ -13,11 +14,13 @@ func main() {
 		return
 	}
 
-	result, err := LoadUrl(args[0])
+	stories, err := LoadUrl(args[0])
 	if err != nil {
-		// handle error
+		return
 	}
-	for _, story := range result {
-		fmt.Printf("Title: %v\n", story.Title)
+	err = state.Ingest("localhost:27000", stories)
+
+	if err != nil {
+		return
 	}
 }
