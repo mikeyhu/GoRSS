@@ -25,6 +25,20 @@ func IngestFeeds(connection string, feeds []domain.Feed) (err error) {
 	return ingest(connection, COLLECTION_FEEDS, items)
 }
 
+func GetFeeds(connection string) (result []domain.Feed, err error) {
+	session, err := mgo.Dial(connection)
+	if err != nil {
+		return
+	}
+	defer session.Close()
+
+	c := session.DB(DB_NAME).C(COLLECTION_FEEDS)
+
+	iter := c.Find(nil).Iter()
+	err = iter.All(&result)
+	return
+}
+
 func ingest(connection string, collection string, items []interface{}) (err error) {
 	session, err := mgo.Dial(connection)
 	if err != nil {

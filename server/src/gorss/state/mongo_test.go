@@ -22,17 +22,40 @@ var testStory2 = domain.Story{
 	Id:    "another_story",
 	Date:  expectedDate}
 
-var testFeed = domain.Feed{
+var testFeed1 = domain.Feed{
 	Url:  "http://localhost:12345/rss.xml",
 	Tags: []string{"News", "Technology"}}
 
+var testFeed2 = domain.Feed{
+	Url:  "http://localhost:54321/rss.xml",
+	Tags: []string{"News", "Technology"}}
+
 func TestInsertFeed(t *testing.T) {
+	clearCollection(COLLECTION_FEEDS)
 	feeds := []domain.Feed{
-		testFeed}
+		testFeed1,
+		testFeed2}
 
 	erro := IngestFeeds(connection, feeds)
 	if erro != nil {
 		t.Errorf("Ingest() returned %v", erro)
+	}
+}
+
+func TestGetFeed(t *testing.T) {
+	clearCollection(COLLECTION_FEEDS)
+	feeds := []domain.Feed{
+		testFeed1,
+		testFeed2}
+
+	_ = IngestFeeds(connection, feeds)
+
+	result, err := GetFeeds(connection)
+	if err != nil {
+		t.Errorf("GetFeeds() returned %v", err)
+	}
+	if len(result) != 2 {
+		t.Errorf("GetFeeds() returned %v", result)
 	}
 }
 
@@ -60,4 +83,14 @@ func TestIngestion(t *testing.T) {
 	if result.Title != "A story" {
 		t.Errorf("Story.Title: %v", result.Title)
 	}
+}
+
+func clearCollection(collection string) {
+	session, _ := mgo.Dial(connection)
+
+	defer session.Close()
+
+	c := session.DB(DB_NAME).C(collection)
+	c.DropCollection()
+
 }
