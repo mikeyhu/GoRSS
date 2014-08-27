@@ -1,7 +1,9 @@
 package rss
 
-import "testing"
-import "time"
+import (
+	"testing"
+	"time"
+)
 
 var testData = `
 <?xml version="1.0" encoding="UTF-8"?>

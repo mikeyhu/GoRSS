@@ -10,6 +10,7 @@ import (
 type Entry struct {
 	Title   string `xml:"title"`
 	Link    string `xml:"link"`
+	Id      string `xml:"id"`
 	Updated string `xml:"updated"`
 }
 
@@ -32,6 +33,7 @@ func Normalise(parsedData Feed) (results []domain.Story) {
 		results[pos] = domain.Story{
 			Title: element.Title,
 			Link:  element.Link,
+			Id:    element.Id,
 			Date:  date}
 	}
 	return
