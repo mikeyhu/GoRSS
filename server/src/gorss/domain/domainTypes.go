@@ -8,3 +8,8 @@ type Story struct {
 	Id    string
 	Date  time.Time
 }
+
+type Feed struct {
+	Url  string
+	Tags []string
+}

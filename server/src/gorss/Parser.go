@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		return
 	}
-	err = state.Ingest("localhost:27000", stories)
+	err = state.IngestStories("localhost:27000", stories)
 
 	if err != nil {
 		return

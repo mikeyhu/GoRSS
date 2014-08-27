@@ -22,20 +22,34 @@ var testStory2 = domain.Story{
 	Id:    "another_story",
 	Date:  expectedDate}
 
+var testFeed = domain.Feed{
+	Url:  "http://localhost:12345/rss.xml",
+	Tags: []string{"News", "Technology"}}
+
+func TestInsertFeed(t *testing.T) {
+	feeds := []domain.Feed{
+		testFeed}
+
+	erro := IngestFeeds(connection, feeds)
+	if erro != nil {
+		t.Errorf("Ingest() returned %v", erro)
+	}
+}
+
 func TestIngestion(t *testing.T) {
 
 	stories := []domain.Story{
 		testStory1,
 		testStory2}
 
-	erro := Ingest(connection, stories)
+	erro := IngestStories(connection, stories)
 	if erro != nil {
 		t.Errorf("Ingest() returned %v", erro)
 	}
 
 	session, err := mgo.Dial(connection)
 	defer session.Close()
-	c := session.DB("test").C("stories")
+	c := session.DB(DB_NAME).C(COLLECTION_STORIES)
 
 	var result domain.Story
 
