@@ -59,8 +59,8 @@ func TestGetFeed(t *testing.T) {
 	}
 }
 
-func TestIngestion(t *testing.T) {
-
+func TestIngestStories(t *testing.T) {
+	clearCollection(COLLECTION_STORIES)
 	stories := []domain.Story{
 		testStory1,
 		testStory2}
@@ -82,6 +82,26 @@ func TestIngestion(t *testing.T) {
 	}
 	if result.Title != "A story" {
 		t.Errorf("Story.Title: %v", result.Title)
+	}
+}
+
+func TestGetStories(t *testing.T) {
+	clearCollection(COLLECTION_STORIES)
+	stories := []domain.Story{
+		testStory1,
+		testStory2}
+
+	erro := IngestStories(connection, stories)
+	if erro != nil {
+		t.Errorf("Ingest() returned %v", erro)
+	}
+
+	result, err := GetStories(connection)
+	if err != nil {
+		t.Errorf("GetStories() returned %v", err)
+	}
+	if len(result) != 2 {
+		t.Errorf("GetStories() returned %v", result)
 	}
 }
 

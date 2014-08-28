@@ -34,7 +34,21 @@ func GetFeeds(connection string) (result []domain.Feed, err error) {
 
 	c := session.DB(DB_NAME).C(COLLECTION_FEEDS)
 
-	iter := c.Find(nil).Iter()
+	iter := c.Find(nil).Limit(100).Iter()
+	err = iter.All(&result)
+	return
+}
+
+func GetStories(connection string) (result []domain.Story, err error) {
+	session, err := mgo.Dial(connection)
+	if err != nil {
+		return
+	}
+	defer session.Close()
+
+	c := session.DB(DB_NAME).C(COLLECTION_STORIES)
+
+	iter := c.Find(nil).Limit(100).Iter()
 	err = iter.All(&result)
 	return
 }
