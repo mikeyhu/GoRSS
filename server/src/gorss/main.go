@@ -23,14 +23,17 @@ func main() {
 		fmt.Printf("Err:%v", err)
 		return
 	}
-	err = state.IngestStories(CONNECTION, stories)
+
+	repo := state.GetStoryRepo(CONNECTION)
+
+	repo.Insert(stories)
 
 	if err != nil {
 		fmt.Printf("Err:%v", err)
 		return
 	}
 
-	err = controllers.StartController(CONNECTION, PORT)
+	err = controllers.StartController(repo, PORT)
 	if err != nil {
 		fmt.Printf("Err:%v", err)
 		return

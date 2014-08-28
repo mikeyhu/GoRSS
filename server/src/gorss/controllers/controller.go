@@ -6,11 +6,10 @@ import (
 	"encoding/json"
 )
 
-var connection string
+var storyRepo state.StoryRepo
 
-func getStories(w http.ResponseWriter, r *http.Request) {
-
-	stories, err := state.GetStories(connection)
+func getLatestStories(w http.ResponseWriter, r *http.Request) {
+	stories, err := storyRepo.All()
 
 	js, err := json.Marshal(stories)
 	if err != nil {
@@ -22,10 +21,9 @@ func getStories(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-func StartController(mongoConnection string, port string) error {
-	connection = mongoConnection
-	http.HandleFunc("/stories", getStories)
+func StartController(repo state.StoryRepo, port string) error {
+	storyRepo = repo
+	http.HandleFunc("/stories/latest", getLatestStories)
 	return http.ListenAndServe(":" + port, nil)
-
 }
 
