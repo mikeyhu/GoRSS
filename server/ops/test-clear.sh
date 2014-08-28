@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "Clearing test mongo"
 path=`pwd`
 rm -rf test/resources/database/*
 rm -rf test/log/database.log
