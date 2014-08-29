@@ -31,17 +31,12 @@ func (r StoryRepo) Insert(feeds []domain.Story) (err error) {
 	return
 }
 
-func GetStoryRepo(connection string) StoryRepo {
-	var (
-		mongoSession *mgo.Session
-		err          error
-	)
-	if mongoSession, err = mgo.Dial(connection); err != nil {
-		panic(err)
-	}
+func (r *StoryRepo) SetMongoCollection(Collection *mgo.Collection) {
+	r.Collection = Collection
+}
 
-	database := mongoSession.DB(DB_NAME)
-	var repo = StoryRepo{}
-	repo.Collection = database.C(COLLECTION_STORIES)
-	return repo
+func GetStoryRepo(connection string) StoryRepo {
+	var repo = &StoryRepo{}
+	getRepo(connection, COLLECTION_STORIES, repo)
+	return *repo
 }

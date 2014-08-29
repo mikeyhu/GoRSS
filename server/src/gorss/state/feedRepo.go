@@ -31,17 +31,12 @@ func (r FeedRepo) Insert(feeds []domain.Feed) (err error) {
 	return
 }
 
-func GetFeedRepo(connection string) FeedRepo {
-	var (
-		mongoSession *mgo.Session
-		err          error
-	)
-	if mongoSession, err = mgo.Dial(connection); err != nil {
-		panic(err)
-	}
+func (r *FeedRepo) SetMongoCollection(Collection *mgo.Collection) {
+	r.Collection = Collection
+}
 
-	database := mongoSession.DB(DB_NAME)
-	var repo = FeedRepo{}
-	repo.Collection = database.C(COLLECTION_FEEDS)
-	return repo
+func GetFeedRepo(connection string) FeedRepo {
+	var repo = &FeedRepo{}
+	getRepo(connection, COLLECTION_FEEDS, repo)
+	return *repo
 }
