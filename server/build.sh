@@ -1,10 +1,19 @@
 export GOPATH=`pwd`
 
-go fmt gorss/atom gorss/rss gorss/domain gorss/state gorss
+packages=(
+	"gorss/atom"
+	"gorss/rss"
+	"gorss/domain"
+	"gorss/state"
+	"gorss/controllers"
+	"gorss"
+)
+
+go fmt "${packages[@]}"
 
 ops/test-clear.sh
 ops/test-start.sh
-go test gorss/atom gorss/rss gorss/domain gorss/state gorss
+go test "${packages[@]}"
 ops/test-stop.sh
 
 go install gorss
