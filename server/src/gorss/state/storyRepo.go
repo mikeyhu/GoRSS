@@ -6,11 +6,9 @@ import (
 	"gorss/domain"
 )
 
-type (
-	StoryRepo struct {
-		Collection *mgo.Collection
-	}
-)
+type StoryRepo struct {
+	Collection *mgo.Collection
+}
 
 func (r StoryRepo) All() (feeds []domain.Story, err error) {
 	err = r.Collection.Find(bson.M{}).All(&feeds)
@@ -29,6 +27,10 @@ func (r StoryRepo) Insert(feeds []domain.Story) (err error) {
 		}
 	}
 	return
+}
+
+func (r StoryRepo) Clear() (err error) {
+	return r.Collection.DropCollection()
 }
 
 func (r *StoryRepo) SetMongoCollection(Collection *mgo.Collection) {

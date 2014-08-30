@@ -33,7 +33,7 @@ func main() {
 		return
 	}
 
-	err = controllers.StartController(repo, PORT)
+	err = controllers.StartController(CONNECTION, PORT)
 	if err != nil {
 		fmt.Printf("Err:%v", err)
 		return

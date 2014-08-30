@@ -6,11 +6,9 @@ import (
 	"gorss/domain"
 )
 
-type (
-	FeedRepo struct {
-		Collection *mgo.Collection
-	}
-)
+type FeedRepo struct {
+	Collection *mgo.Collection
+}
 
 func (r FeedRepo) All() (feeds []domain.Feed, err error) {
 	err = r.Collection.Find(bson.M{}).All(&feeds)
