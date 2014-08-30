@@ -1,54 +1,45 @@
 package state
 
 import (
+	. "gopkg.in/check.v1"
 	"gorss/domain"
-	"testing"
 	"time"
 )
 
-var expectedDate = time.Now()
+type StoryRepoSuite struct{}
 
-var testStory1 = domain.Story{
-	Title: "A story",
-	Id:    "a_story",
-	Date:  expectedDate}
+var _ = Suite(&StoryRepoSuite{})
 
-var testStory2 = domain.Story{
-	Title: "Another story",
-	Id:    "another_story",
-	Date:  expectedDate}
-
-func TestStoryRepo_Insert(t *testing.T) {
+func (s *StoryRepoSuite) SetUpTest(c *C) {
 	clearCollection(COLLECTION_STORIES)
-	stories := []domain.Story{
-		testStory1,
-		testStory2}
-
-	repo := GetStoryRepo(CONNECTION)
-
-	err := repo.Insert(stories)
-
-	if err != nil {
-		t.Errorf("StoryRepo.Insert() returned %v", err)
-	}
 }
 
-func TestStoryRepo_All(t *testing.T) {
-	clearCollection(COLLECTION_STORIES)
-	stories := []domain.Story{
-		testStory1,
-		testStory2}
+var expectedDate = time.Now()
 
+var stories = []domain.Story{
+	domain.Story{Title: "A story", Id: "a_story", Date: expectedDate},
+	domain.Story{Title: "Another story", Id: "another_story", Date: expectedDate}}
+
+func (s *StoryRepoSuite) TestStoryRepo_Insert(c *C) {
+	//Given
 	repo := GetStoryRepo(CONNECTION)
 
+	//When
 	err := repo.Insert(stories)
 
+	//Then
+	c.Assert(err, IsNil)
+}
+
+func (s *StoryRepoSuite) TestStoryRepo_All(c *C) {
+	//Given
+	repo := GetStoryRepo(CONNECTION)
+	err := repo.Insert(stories)
+
+	//When
 	result, err := repo.All()
 
-	if err != nil {
-		t.Errorf("StoryRepo.All() returned %v", err)
-	}
-	if len(result) != 2 {
-		t.Errorf("StoryRepo.All() returned %v items: \n%v", len(result), result)
-	}
+	//Then
+	c.Assert(err, IsNil)
+	c.Assert(result, HasLen, 2)
 }
