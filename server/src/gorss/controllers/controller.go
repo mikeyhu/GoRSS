@@ -4,11 +4,12 @@ import (
 	"net/http"
 	"gorss/state"
 	"encoding/json"
+	"github.com/gorilla/mux"
 )
 
 var storyRepo state.StoryRepo
 
-func getLatestStories(w http.ResponseWriter, r *http.Request) {
+func LatestStoriesHandler(w http.ResponseWriter, r *http.Request) {
 	stories, err := storyRepo.All()
 
 	js, err := json.Marshal(stories)
@@ -23,7 +24,10 @@ func getLatestStories(w http.ResponseWriter, r *http.Request) {
 
 func StartController(repo state.StoryRepo, port string) error {
 	storyRepo = repo
-	http.HandleFunc("/stories/latest", getLatestStories)
+
+	r := mux.NewRouter()
+	r.HandleFunc("/stories/latest", LatestStoriesHandler)
+	http.Handle("/", r)
 	return http.ListenAndServe(":" + port, nil)
 }
 
