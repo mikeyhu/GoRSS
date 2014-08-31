@@ -1,9 +1,16 @@
 package atom
 
 import (
+	. "gopkg.in/check.v1"
 	"testing"
 	"time"
 )
+
+func Test(t *testing.T) { TestingT(t) }
+
+type AtomParserSuite struct{}
+
+var _ = Suite(&AtomParserSuite{})
 
 var testData = `
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -32,7 +39,7 @@ var testData = `
 	   </author>
 	</entry>
 </feed>
-	`
+`
 
 var testEmptyData = `
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -43,67 +50,43 @@ var testEmptyData = `
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
 	<updated>2003-12-13T18:30:02Z</updated>
 </feed>
-	`
+`
 
-func TestParseSuccess(t *testing.T) {
+func (s *AtomParserSuite) TestParseSuccess(c *C) {
 	var result, err = Parse(testData)
 
-	if err != nil {
-		t.Errorf("Parse() returned %v", err)
-	}
-	expectedTitle := "Example Feed"
-	if result.Title != expectedTitle {
-		t.Errorf("Parse() result.Title = %v wanted %v ", result.Title, expectedTitle)
-	}
+	c.Assert(err, IsNil)
+	c.Assert(result.Title, Equals, "Example Feed")
 }
 
-func TestParseFailInvalidXML(t *testing.T) {
+func (s *AtomParserSuite) TestParseFailInvalidXML(c *C) {
 	testData := "<bobbob><bil>"
-
 	_, err := Parse(testData)
 
-	if err == nil {
-		t.Errorf("Parse() returned %v", err)
-	}
+	c.Assert(err, Not(IsNil))
 }
 
-func TestNormalise(t *testing.T) {
+func (s *AtomParserSuite) TestNormalise(c *C) {
 	var parsed, _ = Parse(testData)
 	var result = Normalise(parsed)
 
-	if len(result) != 1 {
-		t.Errorf("NormaliseAtom() returned %v", len(result))
-	}
-	if result[0].Title != "Atom-Powered Robots Run Amok" {
-		t.Errorf("NormaliseAtom() returned title %v", result[0].Title)
-	}
+	c.Assert(result, HasLen, 1)
+	c.Assert(result[0].Title, Equals, "Atom-Powered Robots Run Amok")
 }
 
-func TestLoadStories(t *testing.T) {
+func (s *AtomParserSuite) TestLoadStories(c *C) {
 	var result, err = LoadStories(testData)
 
-	if err != nil {
-		t.Errorf("LoadStories() returned err")
-	}
-	if len(result) != 1 {
-		t.Errorf("LoadStories() returned %v", len(result))
-	}
-	if result[0].Title != "Atom-Powered Robots Run Amok" {
-		t.Errorf("LoadStories() returned title %v", result[0].Title)
-	}
 	expectedDate, _ := time.Parse(time.RFC1123, "2003-12-13T18:30:02Z")
-	if result[0].Date != expectedDate {
-		t.Errorf("Normalise() did not find datetime: %v", result[0].Date)
-	}
+	c.Assert(err, IsNil)
+	c.Assert(result, HasLen, 1)
+	c.Assert(result[0].Title, Equals, "Atom-Powered Robots Run Amok")
+	c.Assert(result[0].Date, Equals, expectedDate)
 }
 
-func TestLoadEmptyStories(t *testing.T) {
+func (s *AtomParserSuite) TestLoadEmptyStories(c *C) {
 	var result, err = LoadStories(testEmptyData)
 
-	if err == nil {
-		t.Errorf("LoadStories() did not return err")
-	}
-	if len(result) != 0 {
-		t.Errorf("LoadStories() returned %v", len(result))
-	}
+	c.Assert(err, Not(IsNil))
+	c.Assert(result, HasLen, 0)
 }

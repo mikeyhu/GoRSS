@@ -1,6 +1,15 @@
 package main
 
-import "testing"
+import (
+	. "gopkg.in/check.v1"
+	"testing"
+)
+
+func Test(t *testing.T) { TestingT(t) }
+
+type LoaderSuite struct{}
+
+var _ = Suite(&LoaderSuite{})
 
 var testAtom = `
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -34,29 +43,19 @@ var testRss = `
 </rss>
 `
 
-func TestLoadRss(t *testing.T) {
+func (s *LoaderSuite) TestLoadRss(c *C) {
 	result, err := LoadFeed(testRss)
-	if err != nil {
-		t.Errorf("LoadFeed() unable to load feed")
-	}
-	if len(result) != 1 {
-		t.Errorf("LoadFeed() did not find story")
-	}
+	c.Assert(err, IsNil)
+	c.Assert(result, HasLen, 1)
 }
 
-func TestLoadAtom(t *testing.T) {
+func (s *LoaderSuite) TestLoadAtom(c *C) {
 	result, err := LoadFeed(testAtom)
-	if err != nil {
-		t.Errorf("LoadFeed() unable to load feed")
-	}
-	if len(result) != 1 {
-		t.Errorf("LoadFeed() did not find story")
-	}
+	c.Assert(err, IsNil)
+	c.Assert(result, HasLen, 1)
 }
 
-func TestInvalid(t *testing.T) {
+func (s *LoaderSuite) TestInvalid(c *C) {
 	_, err := LoadFeed("<a></a>")
-	if err == nil {
-		t.Errorf("LoadFeed() did not return error")
-	}
+	c.Assert(err, Not(IsNil))
 }

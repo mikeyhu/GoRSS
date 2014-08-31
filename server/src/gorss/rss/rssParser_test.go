@@ -1,9 +1,16 @@
 package rss
 
 import (
+	. "gopkg.in/check.v1"
 	"testing"
 	"time"
 )
+
+func Test(t *testing.T) { TestingT(t) }
+
+type RssParserSuite struct{}
+
+var _ = Suite(&RssParserSuite{})
 
 var testData = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -35,43 +42,29 @@ var testData = `
 </rss>
 `
 
-func TestParseSuccess(t *testing.T) {
+func (s *RssParserSuite) TestParseSuccess(c *C) {
 	var result, err = Parse(testData)
 
-	if err != nil {
-		t.Errorf("Parse() returned %v", err)
-	}
-	expectedTitle := "Sport | The Guardian"
-	if result.Channel.Title != expectedTitle {
-		t.Errorf("Parse() result.Title = '%v' wanted '%v' ", result.Channel.Title, expectedTitle)
-	}
+	c.Assert(err, IsNil)
+	c.Assert(result.Channel.Title, Equals, "Sport | The Guardian")
 }
 
-func TestParseFailInvalidXML(t *testing.T) {
+func (s *RssParserSuite) TestParseFailInvalidXML(c *C) {
 	testData := "<bobbob><bil>"
 
 	_, err := Parse(testData)
 
-	if err == nil {
-		t.Errorf("Parse() returned %v", err)
-	}
+	c.Assert(err, Not(IsNil))
 }
 
-func TestNormalise(t *testing.T) {
+func (s *RssParserSuite) TestNormalise(c *C) {
 	var parsed, _ = Parse(testData)
 	var result = Normalise(parsed)
 
-	if len(result) != 2 {
-		t.Errorf("Normalise() returned %v", len(result))
-	}
-	if result[0].Id != "http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc" {
-		t.Errorf("Normalise() did not find Id")
-	}
+	c.Assert(result, HasLen, 2)
+	c.Assert(result[0].Id, Equals, "http://feeds.theguardian.com/c/34708/f/666716/s/3bd61efc/sc")
+
 	expectedDate, err := time.Parse(time.RFC1123, "Tue, 24 Jun 2014 20:02:55 GMT")
-	if err != nil {
-		t.Errorf("Unable to parse time")
-	}
-	if result[0].Date != expectedDate {
-		t.Errorf("Normalise() did not find datetime: %v", result[0].Date)
-	}
+	c.Assert(err, IsNil)
+	c.Assert(result[0].Date, Equals, expectedDate)
 }
