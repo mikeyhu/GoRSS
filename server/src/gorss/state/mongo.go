@@ -1,6 +1,8 @@
 package state
 
-import "gopkg.in/mgo.v2"
+import (
+	"gopkg.in/mgo.v2"
+)
 
 const DB_NAME = "RSS"
 const COLLECTION_STORIES = "stories"

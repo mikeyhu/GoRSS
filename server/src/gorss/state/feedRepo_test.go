@@ -16,18 +16,15 @@ func (s *FeedRepoSuite) SetUpTest(c *C) {
 	clearCollection(COLLECTION_FEEDS)
 }
 
-var testFeeds = []domain.Feed{
-	domain.Feed{
-		Url: "http://localhost:12345/rss.xml", Tags: []string{"News", "Technology"}},
-	domain.Feed{
-		Url: "http://localhost:54321/rss.xml", Tags: []string{"News", "Technology"}}}
+var testFeed = domain.Feed{
+	Url: "http://localhost:12345/rss.xml", Tags: []string{"News", "Technology"}}
 
 func (s *FeedRepoSuite) TestFeedRepo_Insert(c *C) {
 	//Given
 	repo := GetFeedRepo(CONNECTION)
 
 	//When
-	err := repo.Insert(testFeeds)
+	err := repo.Insert(testFeed)
 
 	//Then
 	c.Assert(err, IsNil)
@@ -36,12 +33,12 @@ func (s *FeedRepoSuite) TestFeedRepo_Insert(c *C) {
 func (s *FeedRepoSuite) TestFeedRepo_All(c *C) {
 	//Given
 	repo := GetFeedRepo(CONNECTION)
-	err := repo.Insert(testFeeds)
+	err := repo.Insert(testFeed)
 
 	//When
 	result, err := repo.All()
 
 	//Then
 	c.Assert(err, IsNil)
-	c.Assert(len(result), Equals, 2)
+	c.Assert(len(result), Equals, 1)
 }

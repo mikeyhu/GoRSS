@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"gorss/domain"
+	"log"
 )
 
 type FeedRepo struct {
@@ -15,18 +16,19 @@ func (r FeedRepo) All() (feeds []domain.Feed, err error) {
 	return
 }
 
-func (r FeedRepo) Insert(feeds []domain.Feed) (err error) {
-	items := make([]interface{}, len(feeds))
-	for i, v := range feeds {
-		items[i] = v
-	}
-	for _, item := range items {
-		err = r.Collection.Insert(item)
-		if err != nil {
-			break
-		}
+func (r FeedRepo) Insert(feed domain.Feed) (err error) {
+
+	err = r.Collection.Insert(feed)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	} else {
+		log.Printf("Inserted Feed: %v\n", feed.Url)
 	}
 	return
+}
+
+func (r FeedRepo) Clear() (err error) {
+	return r.Collection.DropCollection()
 }
 
 func (r *FeedRepo) SetMongoCollection(Collection *mgo.Collection) {
