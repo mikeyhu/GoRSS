@@ -29,19 +29,6 @@ func LatestStoriesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func allFeedsHandler(w http.ResponseWriter, r *http.Request) {
-	feeds, err := feedRepo.All()
-
-	js, err := json.Marshal(feeds)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
-}
-
 func StartController(connection string, port string) error {
 	storyRepo = state.GetStoryRepo(connection)
 	feedRepo = state.GetFeedRepo(connection)
@@ -50,11 +37,12 @@ func StartController(connection string, port string) error {
 	//Story Handlers
 	r.HandleFunc("/stories/latest", LatestStoriesHandler)
 
-	//Feed Handlers
-	r.HandleFunc("/feeds/all", allFeedsHandler)
-
 	//Static Handlers
+	http.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(http.Dir("../client/dist/"))))
 
 	http.Handle("/", r)
+
+	http.Handle("/feeds/", FeedsController())
+
 	return http.ListenAndServe(":"+port, nil)
 }
