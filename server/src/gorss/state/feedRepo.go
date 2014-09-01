@@ -18,11 +18,22 @@ func (r FeedRepo) All() (feeds []domain.Feed, err error) {
 
 func (r FeedRepo) Insert(feed domain.Feed) (err error) {
 
+	feed.Id = bson.NewObjectId()
 	err = r.Collection.Insert(feed)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 	} else {
 		log.Printf("Inserted Feed: %v\n", feed.Url)
+	}
+	return
+}
+
+func (r FeedRepo) Update(feed domain.Feed) (err error) {
+	err = r.Collection.UpdateId(feed.Id, feed)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	} else {
+		log.Printf("Updated Feed : %v\n", feed.Url)
 	}
 	return
 }

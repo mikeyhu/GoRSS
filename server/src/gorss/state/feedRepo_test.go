@@ -42,3 +42,22 @@ func (s *FeedRepoSuite) TestFeedRepo_All(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(len(result), Equals, 1)
 }
+
+func (s *FeedRepoSuite) TestFeedRepo_Update(c *C) {
+	//Given
+	repo := GetFeedRepo(CONNECTION)
+	err := repo.Insert(testFeed)
+	feeds, err := repo.All()
+	feed := feeds[0]
+
+	//When
+
+	feed.Url = "http://localhost:54321/rss.xml"
+	err = repo.Update(feed)
+	result, _ := repo.All()
+
+	//Then
+	c.Assert(err, IsNil)
+	c.Assert(len(result), Equals, 1)
+	c.Assert(result[0].Url, Equals, "http://localhost:54321/rss.xml")
+}
