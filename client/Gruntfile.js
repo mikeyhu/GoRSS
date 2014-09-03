@@ -4,8 +4,8 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['src/**/*'],
-        tasks: ['clean','copy'],
+        files: ['src/**/*', 'bower_components/**/*'],
+        tasks: ['clean','copy:to_dist'],
         options: {
           spawn: false,
         },
@@ -15,11 +15,21 @@ module.exports = function(grunt) {
     clean: ["dist/"],
 
     copy: {
-      files: {
-        cwd: 'src/',
-        src: '**/*',
-        dest: 'dist/',
-        expand: true
+      to_dist: {
+        files: [
+          {
+            cwd: 'src/',
+            src: '**/*',
+            dest: 'dist/',
+            expand: true
+          },
+          {
+            cwd: 'bower_components/',
+            src: '**/*',
+            dest: 'dist/',
+            expand: true
+          }
+        ]
       }
     }
 
@@ -30,5 +40,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
 
-  grunt.registerTask('default', ['clean','copy']);
+  grunt.registerTask('default', ['clean','copy:to_dist']);
 };

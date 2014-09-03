@@ -9,7 +9,9 @@ import (
 
 func allFeedsHandler(w http.ResponseWriter, r *http.Request) {
 	feeds, err := feedRepo.All()
-
+	if feeds == nil {
+		feeds = []domain.Feed{}
+	}
 	js, err := json.Marshal(feeds)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -46,6 +48,6 @@ func FeedsController() (r *mux.Router) {
 	r = mux.NewRouter()
 	r.HandleFunc("/feeds/", insertFeedHandler).Methods("POST")
 	r.HandleFunc("/feeds/{id}", updateFeedHandler).Methods("PUT")
-	r.HandleFunc("/feeds/all", allFeedsHandler)
+	r.HandleFunc("/feeds/", allFeedsHandler)
 	return
 }

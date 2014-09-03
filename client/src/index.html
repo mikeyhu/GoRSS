@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="gorssApp">
+  <head>
+    <script src="angular/angular.min.js"></script>
+    <script src="angular-resource/angular-resource.min.js"></script>
+    <script src="js/feed.js"></script>
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h2>Todo</h2>
+      <div ng-controller="feedController">
+        <table class="table table-striped">
+          <tr ng-repeat="feed in feeds">
+            <td>
+              <p>{{feed.Url}}</p>
+              <p>{{feed.Tags}}</p>
+            </td>
+          </tr>
+        </table>
+
+        <form ng-submit="addFeed()">
+          <input type="text" ng-model="feedUrl"  size="30" placeholder="add url here">
+          <input type="text" ng-model="feedTags"  size="30" placeholder="add tags here">
+          <input class="btn-primary" type="submit" value="add">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
