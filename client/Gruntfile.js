@@ -21,8 +21,7 @@ module.exports = function(grunt) {
             cwd: 'src/',
             src: '**/*',
             dest: 'dist/',
-            expand: true
-          },
+            expand: true },
           {
             cwd: 'bower_components/',
             src: '**/*',
@@ -31,14 +30,20 @@ module.exports = function(grunt) {
           }
         ]
       }
-    }
+    },
 
+    karma: {
+            unit: {
+                configFile: 'karma.conf.js'
+            }
+        }
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
-
+  grunt.loadNpmTasks('grunt-jasmine');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('default', ['clean','copy:to_dist']);
 };
