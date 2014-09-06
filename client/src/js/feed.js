@@ -13,7 +13,7 @@ app.controller('feedController', function($scope, $http) {
     $scope.addFeed = function() {
       feed = {}
       feed.Url = $scope.feedUrl;
-      feed.Tags = [$scope.feedTags];
+      feed.Tags = $scope.feedTags.split(" ");
 
       $http.post('../feeds/',feed).
         success(function() {
