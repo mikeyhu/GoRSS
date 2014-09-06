@@ -1,4 +1,4 @@
-package main
+package collector
 
 import (
 	. "gopkg.in/check.v1"
@@ -44,18 +44,18 @@ var testRss = `
 `
 
 func (s *LoaderSuite) TestLoadRss(c *C) {
-	result, err := LoadFeed(testRss)
+	result, err := loadFeed(testRss)
 	c.Assert(err, IsNil)
 	c.Assert(result, HasLen, 1)
 }
 
 func (s *LoaderSuite) TestLoadAtom(c *C) {
-	result, err := LoadFeed(testAtom)
+	result, err := loadFeed(testAtom)
 	c.Assert(err, IsNil)
 	c.Assert(result, HasLen, 1)
 }
 
 func (s *LoaderSuite) TestInvalid(c *C) {
-	_, err := LoadFeed("<a></a>")
+	_, err := loadFeed("<a></a>")
 	c.Assert(err, Not(IsNil))
 }

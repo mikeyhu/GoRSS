@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"gorss/domain"
+	"log"
 )
 
 type StoryRepo struct {
@@ -15,9 +16,9 @@ func (r StoryRepo) All() (feeds []domain.Story, err error) {
 	return
 }
 
-func (r StoryRepo) Insert(feeds []domain.Story) (err error) {
-	items := make([]interface{}, len(feeds))
-	for i, v := range feeds {
+func (r StoryRepo) Insert(stories []domain.Story) (err error) {
+	items := make([]interface{}, len(stories))
+	for i, v := range stories {
 		items[i] = v
 	}
 	for _, item := range items {
@@ -26,6 +27,7 @@ func (r StoryRepo) Insert(feeds []domain.Story) (err error) {
 			break
 		}
 	}
+	log.Printf("Inserted %v stories", len(stories))
 	return
 }
 

@@ -1,10 +1,11 @@
-package main
+package collector
 
 import (
 	"gorss/atom"
 	"gorss/domain"
 	"gorss/rss"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -20,10 +21,14 @@ func LoadUrl(url string) (result []domain.Story, err error) {
 	if err != nil {
 		return
 	}
-	return LoadFeed(string(body))
+	result, err = loadFeed(string(body))
+
+	log.Printf("Retrieved %v stories from url: %v", len(result), url)
+
+	return
 }
 
-func LoadFeed(data string) (result []domain.Story, err error) {
+func loadFeed(data string) (result []domain.Story, err error) {
 	if result, err = atom.LoadStories(data); err == nil {
 		return
 	}

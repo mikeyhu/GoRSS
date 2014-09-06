@@ -6,6 +6,7 @@ packages=(
 	"gorss/domain"
 	"gorss/state"
 	"gorss/controllers"
+	"gorss/collector"
 	"gorss"
 )
 
