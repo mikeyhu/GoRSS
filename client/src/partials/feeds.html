@@ -1,0 +1,16 @@
+<div>
+  <table class="table table-striped">
+    <tr ng-repeat="feed in feeds">
+      <td>
+        <p>{{feed.Url}}</p>
+        <p>{{feed.Tags}}</p>
+      </td>
+    </tr>
+  </table>
+
+  <form ng-submit="addFeed()">
+    <input type="text" ng-model="feedUrl"  size="30" placeholder="add url here">
+    <input type="text" ng-model="feedTags"  size="30" placeholder="add tags here">
+    <input class="btn-primary" type="submit" value="add">
+  </form>
+</div>

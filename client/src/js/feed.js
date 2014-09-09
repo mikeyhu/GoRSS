@@ -1,5 +1,3 @@
-var app = angular.module('gorssApp',[]);
-
 app.controller('feedController', function($scope, $http) {
 
     $scope.feedCount = function() {return $scope.feeds.length;};
