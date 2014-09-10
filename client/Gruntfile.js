@@ -48,13 +48,16 @@ module.exports = function(grunt) {
         options: {
           sassDir: 'src/sass',
           cssDir: 'dist/css',
-          environment: 'production'
+          environment: 'production',
+          require: 'bootstrap-sass'
         }
       },
       dev: {
         options: {
           sassDir: 'src/sass',
-          cssDir: 'dist/css'
+          cssDir: 'dist/css',
+          outputStyle: 'expanded',
+          require: 'bootstrap-sass'
         }
       }
     }
