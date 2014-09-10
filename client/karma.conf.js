@@ -11,6 +11,7 @@ module.exports = function(config) {
         files: [
 
           '../bower_components/angular/angular.js',
+          '../bower_components/angular-route/angular-route.js',
           '../bower_components/angular-mocks/angular-mocks.js',
           '**/*.js',
           '../test/js/**/*.js'
@@ -43,6 +44,6 @@ module.exports = function(config) {
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: true
     });
 };
