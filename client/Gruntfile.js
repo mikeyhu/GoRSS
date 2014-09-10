@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['src/**/*', 'bower_components/**/*'],
+        files: ['src/**/*', 'bower_components/**/*','test/**/*'],
         tasks: ['karma','clean','copy:to_dist','compass:dev'],
         options: {
           spawn: false,
