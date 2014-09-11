@@ -1,7 +1,8 @@
-var app = angular.module('gorssApp',['ngRoute']);
+var app = angular.module('gorssApp', ['ngRoute']);
 
 app.config(['$routeProvider',
-  function($routeProvider) {
+  function ($routeProvider) {
+    "use strict";
     $routeProvider.
       when('/feeds', {
         templateUrl: 'partials/feeds.html',
