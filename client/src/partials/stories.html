@@ -1,4 +1,9 @@
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#/stories">Stories</a></li>
+  <li><a href="#/feeds">Feeds</a></li>
+</ul>
+
 <div ng-repeat="story in stories">
-  <p class="story"><a href="{{story.Link}}">{{story.Title}}</a></p>
-  <p>{{story.Date}}</p>
+  <p class="lead"><a href="{{story.Link}}">{{story.Title}}</a></p>
+  <small>{{story.Date}}</small>
 </div>

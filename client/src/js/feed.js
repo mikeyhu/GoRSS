@@ -9,7 +9,7 @@ app.controller('feedController', function($scope, $http) {
       });
 
     $scope.addFeed = function() {
-      feed = {}
+      var feed = {};
       feed.Url = $scope.feedUrl;
       feed.Tags = $scope.feedTags.split(" ");
 
@@ -20,4 +20,11 @@ app.controller('feedController', function($scope, $http) {
           $scope.feedTags = '';
         });
     };
+
+    $scope.removeFeed = function(id) {
+      var feed = $scope.feeds[id];
+      var mongoId = feed.id;
+      $scope.feeds.splice(id,1);
+
+    }
   });

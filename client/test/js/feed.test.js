@@ -9,8 +9,8 @@ describe("Feeds can be displayed",function() {
     httpBackend = $httpBackend;
 
     httpBackend.whenGET("../feeds/").respond([
-      {Url:"A", Tags:["tag"]},
-      {Url:"B", Tags:["tag"]}
+      {Url:"A", Tags:["tag"], id:"aaa"},
+      {Url:"B", Tags:["tag"], id:"bbb"}
       ]);
 
     ctrl = $controller("feedController", {
@@ -24,6 +24,12 @@ describe("Feeds can be displayed",function() {
     httpBackend.flush();
     expect(scope.feedCount()).toBe(2);
   });
+
+  it("should be able to delete feeds", function(){
+    httpBackend.flush();
+    scope.removeFeed("aaa");
+    expect(scope.feedCount()).toBe(1);
+  })
 
   it("should be able to post content", function(){
 
