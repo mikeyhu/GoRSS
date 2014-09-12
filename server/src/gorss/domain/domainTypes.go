@@ -10,6 +10,8 @@ type Story struct {
 	Link  string
 	Id    string
 	Date  time.Time
+	Url   string
+	Tags  []string
 }
 
 type Feed struct {

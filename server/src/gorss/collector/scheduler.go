@@ -23,7 +23,7 @@ func storyCollection(feedStore state.FeedRepo, storyStore state.StoryRepo) {
 		log.Printf("No feeds to process")
 	}
 	for _, feed := range feeds {
-		stories, err := LoadUrl(feed.Url)
+		stories, err := LoadUrl(feed.Url, feed.Tags)
 		if err != nil {
 			log.Printf("Error Loading url: %v", err)
 		} else {

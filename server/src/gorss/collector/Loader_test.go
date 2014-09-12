@@ -2,6 +2,7 @@ package collector
 
 import (
 	. "gopkg.in/check.v1"
+	"gorss/domain"
 	"testing"
 )
 
@@ -10,6 +11,10 @@ func Test(t *testing.T) { TestingT(t) }
 type LoaderSuite struct{}
 
 var _ = Suite(&LoaderSuite{})
+
+var stories = []domain.Story{
+	domain.Story{Title: "A story", Id: "a_story"},
+	domain.Story{Title: "Another story", Id: "another_story"}}
 
 var testAtom = `
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -58,4 +63,11 @@ func (s *LoaderSuite) TestLoadAtom(c *C) {
 func (s *LoaderSuite) TestInvalid(c *C) {
 	_, err := loadFeed("<a></a>")
 	c.Assert(err, Not(IsNil))
+}
+
+func (s *LoaderSuite) TestAddUrlAndTags(c *C) {
+	result := updateStories("http://a.url/", []string{"news"}, stories)
+	c.Assert(result, HasLen, 2)
+	c.Assert(result[0].Title, Equals, "A story")
+	c.Assert(result[0].Url, Equals, "http://a.url/")
 }
