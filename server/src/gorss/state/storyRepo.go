@@ -7,12 +7,32 @@ import (
 	"log"
 )
 
+const MAX_RESULTS = 50
+
 type StoryRepo struct {
 	Collection *mgo.Collection
 }
 
 func (r StoryRepo) All() (feeds []domain.Story, err error) {
-	err = r.Collection.Find(bson.M{}).All(&feeds)
+	err = r.Collection.
+		Find(bson.M{}).
+		Limit(MAX_RESULTS).
+		All(&feeds)
+	return
+}
+
+func (r StoryRepo) ByTag(tag string) (feeds []domain.Story, err error) {
+	err = r.Collection.
+		Find(bson.M{"tags": tag}).
+		Limit(MAX_RESULTS).
+		All(&feeds)
+	return
+}
+
+func (r StoryRepo) Tags() (tags []string, err error) {
+	err = r.Collection.
+		Find(bson.M{}).
+		Distinct("tags", &tags)
 	return
 }
 
