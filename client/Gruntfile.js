@@ -4,8 +4,8 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['src/**/*', 'bower_components/**/*','test/**/*'],
-        tasks: ['karma','clean','copy:to_dist','compass:dev'],
+        files: ['src/**/*', 'bower_components/**/*', 'test/**/*'],
+        tasks: ['karma', 'clean', 'copy:to_dist', 'compass:dev'],
         options: {
           spawn: false,
         },
@@ -64,9 +64,7 @@ module.exports = function(grunt) {
 
     jslint: {
       client: {
-        src: [
-          'src/js/*.js',
-        ],
+        src: ['src/js/*.js'],
         directives: {
           node: true,
           browser: true,
@@ -82,9 +80,7 @@ module.exports = function(grunt) {
         }
       },
       test: {
-        src: [
-          'test/js/*.js',
-        ],
+        src: ['test/js/*.js'],
         directives: {
           node: true,
           todo: true,
@@ -98,8 +94,8 @@ module.exports = function(grunt) {
           failOnError: false
         }
       }
-
     }
+
   });
 
   grunt.loadNpmTasks('grunt-jslint');
@@ -109,6 +105,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('default', ['karma:unit','clean','copy:to_dist','compass:dev']);
-  grunt.registerTask('production', ['jslint','karma:unit','clean','copy:to_dist','compass:dist'])
+  grunt.registerTask('default', ['karma:unit', 'clean', 'copy:to_dist', 'compass:dev']);
+  grunt.registerTask('production', ['jslint', 'karma:unit', 'clean', 'copy:to_dist', 'compass:dist']);
 };
