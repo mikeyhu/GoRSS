@@ -3,6 +3,18 @@
   <li><a href="#/feeds">Feeds</a></li>
 </ul>
 
+<div>
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <select id="tag" ng-model="selectedTag" class="form-control">
+        <option ng-repeat="tag in tags">{{tag}}</option>
+      </select>
+      <input type="text" class="form-control" placeholder="Search">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </form>
+</div>
+
 <div ng-repeat="story in stories">
   <p class="lead"><a href="{{story.Link}}">{{story.Title}}</a></p>
   <small>{{story.Date}}</small>

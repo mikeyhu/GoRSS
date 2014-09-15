@@ -13,6 +13,8 @@ describe("Stories can be displayed", function () {
       {Title: "A story", Link: "A link", Date: Date.now()}
     ]);
 
+    httpBackend.whenGET("../stories/tags").respond(["news","technology"]);
+
     $controller("storyController", {
       $scope : scope
     });
@@ -21,6 +23,14 @@ describe("Stories can be displayed", function () {
   it("should be able to display feeds", function () {
     httpBackend.flush();
     expect(scope.stories.length).toBe(1);
+  });
+
+  it("should be able to display feeds", function () {
+    httpBackend.flush();
+    expect(scope.tags.length).toBe(3);
+    expect(scope.tags[0]).toBe("select a tag");
+    expect(scope.tags[1]).toBe("news");
+    expect(scope.tags[2]).toBe("technology");
   });
 
 });
