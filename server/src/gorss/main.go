@@ -5,18 +5,20 @@ import (
 	"gorss/controllers"
 	"gorss/state"
 	"log"
+	"os"
 	"time"
 )
 
-const CONNECTION = "localhost:27000"
-const PORT = "8080"
-
 func main() {
+
+	CONNECTION := envOrDefault("CONNECTION", "localhost:27000")
+	PORT := envOrDefault("PORT", "8080")
+	DURATION := envOrDefault("DURATION", "15m")
 
 	feeds := state.GetFeedRepo(CONNECTION)
 	store := state.GetStoryRepo(CONNECTION)
 
-	duration, err := time.ParseDuration("1m")
+	duration, err := time.ParseDuration(DURATION)
 
 	go collector.ScheduleStoryCollection(feeds, store, duration)
 
@@ -25,4 +27,12 @@ func main() {
 		log.Printf("Err:%v", err)
 		return
 	}
+}
+
+func envOrDefault(envName string, defaultValue string) (result string) {
+	result = os.Getenv(envName)
+	if result == "" {
+		result = defaultValue
+	}
+	return result
 }

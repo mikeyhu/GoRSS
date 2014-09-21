@@ -1,4 +1,6 @@
+export PORT=8081
+
 ops/test-clear.sh 
 ops/test-start.sh
-bin/gorss "http://feeds.bbci.co.uk/news/rss.xml"
+bin/gorss 
 ops/test-stop.sh
