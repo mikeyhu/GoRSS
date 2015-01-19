@@ -1,6 +1,7 @@
 package collector
 
 import (
+	"gorss/domain"
 	"gorss/state"
 	"log"
 	. "time"
@@ -10,6 +11,15 @@ func ScheduleStoryCollection(feedStore state.FeedRepo, storyStore state.StoryRep
 	for {
 		storyCollection(feedStore, storyStore)
 		Sleep(sleepDuration)
+	}
+}
+
+func ProcessFeed(feed domain.Feed, storyStore state.StoryRepo) {
+	stories, err := LoadUrl(feed.Url, feed.Tags)
+	if err != nil {
+		log.Printf("Error Loading url: %v", err)
+	} else {
+		storyStore.Insert(stories)
 	}
 }
 
@@ -23,12 +33,7 @@ func storyCollection(feedStore state.FeedRepo, storyStore state.StoryRepo) {
 		log.Printf("No feeds to process")
 	}
 	for _, feed := range feeds {
-		stories, err := LoadUrl(feed.Url, feed.Tags)
-		if err != nil {
-			log.Printf("Error Loading url: %v", err)
-		} else {
-			storyStore.Insert(stories)
-		}
+		ProcessFeed(feed, storyStore)
 
 	}
 }

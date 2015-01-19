@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"gorss/collector"
 	"gorss/domain"
 	"net/http"
 )
@@ -30,6 +31,7 @@ func insertFeedHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid Request", 400)
 	} else {
 		feedRepo.Insert(feed)
+		go collector.ProcessFeed(feed, storyRepo)
 	}
 }
 
