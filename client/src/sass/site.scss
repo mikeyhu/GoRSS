@@ -1,1 +1,19 @@
+$icon-font-path: "/bootstrap/fonts/";
 @import "bootstrap";
+
+
+.story {
+  padding:5pt;
+  margin-top:2pt;
+}
+.story-actions {
+  float:right;
+}
+.odd {
+  background-color:#DDD;
+}
+.even {
+  background-color:#EEE;
+}
+
+

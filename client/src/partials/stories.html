@@ -15,7 +15,15 @@
   </form>
 </div>
 
-<div ng-repeat="story in stories">
+<div ng-repeat="story in stories" class="story" ng-class-odd="'odd'" ng-class-even="'even'">
+  <div class="story-actions btn-group" role="group">
+    <button type="button" class="btn btn-default" ng-click="toggleFavorite($index)">
+      <span class="glyphicon {{starType(isFavorite($index))}}" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="btn btn-default" ng-click="remove($index)">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+    </button>
+  </div>
   <p class="lead"><a href="{{story.Link}}">{{story.Title}}</a></p>
   <small>{{story.Date}}</small>
 </div>
