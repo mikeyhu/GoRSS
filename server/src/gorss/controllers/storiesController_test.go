@@ -36,7 +36,8 @@ func (s *ControllerSuite) TestLatestStoriesHandler_ReturnsAnItem(c *C) {
 
 	var testStory = domain.Story{
 		Title: "Another story",
-		Id:    "another_story"}
+		Id:    "another_story",
+		State: "new"}
 	stories := []domain.Story{testStory}
 	storyRepo.Insert(stories)
 
@@ -48,5 +49,5 @@ func (s *ControllerSuite) TestLatestStoriesHandler_ReturnsAnItem(c *C) {
 	c.Assert(
 		resp.Body.String(),
 		Equals,
-		`[{"Title":"Another story","Link":"","Id":"another_story","Date":"0001-01-01T00:00:00Z","Url":"","Tags":[]}]`)
+		`[{"Title":"Another story","Link":"","Id":"another_story","Date":"0001-01-01T00:00:00Z","Url":"","Tags":[],"State":"new"}]`)
 }

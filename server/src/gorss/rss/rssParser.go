@@ -38,7 +38,8 @@ func Normalise(parsedData Rss) []domain.Story {
 			Title: element.Title,
 			Link:  element.Link,
 			Id:    element.Guid,
-			Date:  date}
+			Date:  date,
+			State: "new"}
 	}
 	return results
 }

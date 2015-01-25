@@ -12,6 +12,7 @@ type Story struct {
 	Date  time.Time
 	Url   string
 	Tags  []string
+	State string
 }
 
 type Feed struct {

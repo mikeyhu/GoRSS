@@ -68,3 +68,10 @@ func (s *RssParserSuite) TestNormalise(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(result[0].Date, Equals, expectedDate)
 }
+
+func (s *RssParserSuite) TestNormaliseAddsDefaultValues(c *C) {
+	var parsed, _ = Parse(testData)
+	var result = Normalise(parsed)
+
+	c.Assert(result[0].State, Equals, "new")
+}

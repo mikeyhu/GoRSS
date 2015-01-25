@@ -34,7 +34,8 @@ func Normalise(parsedData Feed) (results []domain.Story) {
 			Title: element.Title,
 			Link:  element.Link,
 			Id:    element.Id,
-			Date:  date}
+			Date:  date,
+			State: "new"}
 	}
 	return
 }

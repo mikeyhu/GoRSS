@@ -90,3 +90,10 @@ func (s *AtomParserSuite) TestLoadEmptyStories(c *C) {
 	c.Assert(err, Not(IsNil))
 	c.Assert(result, HasLen, 0)
 }
+
+func (s *AtomParserSuite) TestNormaliseAddsDefaultValues(c *C) {
+	var parsed, _ = Parse(testData)
+	var result = Normalise(parsed)
+
+	c.Assert(result[0].State, Equals, "new")
+}
