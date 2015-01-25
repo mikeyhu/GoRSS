@@ -22,6 +22,7 @@ func main() {
 
 	go collector.ScheduleStoryCollection(feeds, store, duration)
 
+	log.Printf("Starting server on port %v", PORT)
 	err = controllers.StartController(CONNECTION, PORT)
 	if err != nil {
 		log.Printf("Err:%v", err)
@@ -35,4 +36,5 @@ func envOrDefault(envName string, defaultValue string) (result string) {
 		result = defaultValue
 	}
 	return result
+
 }

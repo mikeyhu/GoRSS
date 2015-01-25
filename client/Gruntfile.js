@@ -5,11 +5,11 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['src/**/*', 'bower_components/**/*', 'test/**/*'],
-        tasks: ['karma', 'clean', 'copy:to_dist', 'compass:dev'],
+        tasks: ['jslint', 'karma', 'clean', 'copy:to_dist', 'compass:dev'],
         options: {
-          spawn: false,
-        },
-      },
+          spawn: false
+        }
+      }
     },
 
     clean: ["dist/"],
